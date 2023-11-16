@@ -34,5 +34,5 @@ app.get("/products/:id", (req,res)=>{
 
 
 app.listen(PORT,()=>{
-    console.log("Server is listning on port" + PORT);
+    console.log("Server is listening on port" + PORT);
 })

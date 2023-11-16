@@ -53,7 +53,6 @@ export class ProductManager{
             return
         }
 
-        //El id deberia revisar cual es el ultimo id creado para asignar uno que no exista 
         product.id = this.verificarMaxId(this.products) + 1
         this.products.push(product);
 
@@ -66,25 +65,23 @@ export class ProductManager{
         }
     }
 
-    // de cara a los desafios de servidor los metodos que devuelvan informacion deben siempre devolverlos con un return no dentro de un console
+   
         getProducts() {
-        //console.log(this.products);
+      
         return this.products
         }
 
     getProductsById(id){
         const product = this.products.find(product => product.id === id)
-        // console.log(this.products)
-            // console.log(product);
+       
             if(!product){
-                //   console.log("No encontrado" );
                 return 'Producto no encontrado'
             }else{
-                //   console.log(product);
                 return product
             }
     }
-// * usamos destructuracion parcial en los parametros que recibe el metodo, nos interesa solo "id", como propiedad singular, el resto podemos manejarlo como paquete
+
+
     async updateProduct({id, ...newValues}) {
         try {
             const index = this.products.findIndex(product => product.id === id);
@@ -92,15 +89,6 @@ export class ProductManager{
             if (index === -1) {
                 console.log("Producto no encontrado");
             } else {
-                // Esto al usar un spread operator en los parametros que recibe automaticamente analiza todos los campos
-                // this.products[index].title = "Nuevo Producto";
-                // this.products[index].description = "Nueva descripción";
-                // this.products[index].price = 25;
-
-                //!Tenes el save File creado, siempre llama a ese metodo ya que lo tenes
-                // await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, "\t"));
-
-                //* la siguiente linea asigna al producto que queremos modificar los "newValues" que esta recibiendo, el spread desgloza el objeto primero con lo original y luego con los valores nuevos, si una propiedad se repite, los nuevos los reemplazan por estar en segunda posicion
                 this.products[index] = {...this.products[index], ...newValues}
                 await this.saveFile()
             }
@@ -116,11 +104,9 @@ export class ProductManager{
             if(index === -1){
               console.log("No encontrado" );
             }else{
-                // this.products.splice(index, 1)
                 console.log(this.products)
                 this.products = this.products.filter((product)=> product.id != id )
                 await this.saveFile()
-                // await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, "\t"))
             }
         }catch(error){
             console.log(error);
@@ -173,24 +159,6 @@ const test = async () =>
     await prueba1.addProducts(product5);
     await prueba1.addProducts(product6);
 
-
-
-//     const products =   await prueba1.getProducts()
-//     console.log(products)
-
-//     const product = await prueba1.getProductsById(1); 
-//     console.log(product)
-
-// // prueba1.saveFile()
-
- await prueba1.updateProduct({ id: 1, stock: 2, price: 180})
-
-    await prueba1.deleteProduct(4)
-
-// await prueba1.addProducts(product6);
-    
-// const productsActualizado =   await prueba1.getProducts()
-// console.log(productsActualizado)
 
 }
 
